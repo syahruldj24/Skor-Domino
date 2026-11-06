@@ -9,8 +9,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Skor Domino">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" type="image/png" href="icon-192.png?v=3">
-<link rel="apple-touch-icon" href="icon-192.png?v=3">
+<link rel="icon" type="image/png" href="icon-192.png?v=4">
+<link rel="apple-touch-icon" href="icon-192.png?v=4">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -150,10 +150,10 @@ button { font: inherit; color: inherit; }
 .mb .acts { justify-content: flex-end; margin: 0; }
 
 /* ---------- Skor akumulasi sesi (kotak kecil di tengah atas) ---------- */
-.acc { position: absolute; left: 0; right: 25%; top: calc(20px + env(safe-area-inset-top)); z-index: 5; display: flex; justify-content: center; gap: 4px; pointer-events: none; }
+.acc { position: absolute; left: 0; right: 25%; top: calc(20px + env(safe-area-inset-top)); z-index: 5; display: flex; justify-content: center; gap: 8px; pointer-events: none; }
 @media (orientation: portrait) { .acc { right: 0; } }
-.ab { pointer-events: auto; touch-action: none; min-width: 42px; height: 36px; padding: 0 8px; border: 0; border-radius: 11px; cursor: pointer; background: var(--bg); color: var(--fg);
-  font: 800 22px/1 var(--f); font-variant-numeric: tabular-nums; box-shadow: 0 2px 8px rgba(0,0,0,.45), inset 0 0 0 2px rgba(255,255,255,.28); }
+.ab { pointer-events: auto; touch-action: none; min-width: 84px; height: 72px; padding: 0 16px; border: 0; border-radius: 22px; cursor: pointer; background: var(--bg); color: var(--fg);
+  font: 800 44px/1 var(--f); font-variant-numeric: tabular-nums; box-shadow: 0 4px 14px rgba(0,0,0,.5), inset 0 0 0 4px rgba(255,255,255,.28); }
 .ab:active { transform: scale(.92); }
 .hh { display: flex; justify-content: space-between; align-items: baseline; gap: 6px; }
 .hh #curG { color: #f2b01e; letter-spacing: .04em; }
@@ -199,6 +199,25 @@ button { font: inherit; color: inherit; }
 .cel.end .kw, .cel.end .cp { display: none; }
 .chint { position: absolute; left: 0; right: 0; bottom: calc(18px + env(safe-area-inset-bottom)); text-align: center; font: 600 12px var(--f); letter-spacing: .1em; color: rgba(255,255,255,.7); animation: hint 1.6s ease-in-out infinite; }
 @keyframes hint { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+/* ---------- DAMN!!!! dari 4 sisi (hanya Akhiri sesi) ---------- */
+.dm { position: absolute; z-index: 2; display: none; pointer-events: none; font-family: var(--fd); text-transform: uppercase; line-height: 1; white-space: nowrap;
+  font-size: clamp(32px, 11vmin, 76px); letter-spacing: .02em; color: var(--c); }
+.dm span { display: block; text-shadow: -2px -2px 0 var(--o), 2px -2px 0 var(--o), -2px 2px 0 var(--o), 2px 2px 0 var(--o), 0 6px 0 var(--e), 0 0 28px var(--g); }
+.cel.end .dm { display: block; }
+.dm.t { --c: #ffe14d; --o: #3a1500; --e: #b34700; --g: rgba(255,200,0,.85); left: 50%; top: calc(6vh + env(safe-area-inset-top)); }
+.dm.b { --c: #ff7a3d; --o: #3a0f00; --e: #b32a00; --g: rgba(255,110,40,.85); left: 50%; bottom: calc(8vh + env(safe-area-inset-bottom)); }
+.dm.l { --c: #7dffb0; --o: #04301a; --e: #0b8a38; --g: rgba(80,255,150,.85); left: 3vw; top: 50%; writing-mode: vertical-rl; }
+.dm.r { --c: #ff6bd6; --o: #3a0030; --e: #9a1a86; --g: rgba(255,90,210,.85); right: 3vw; top: 50%; writing-mode: vertical-rl; }
+.cel.on.end .dm.t { animation: dmT .8s cubic-bezier(.18,1.35,.4,1) 0s both; }
+.cel.on.end .dm.b { animation: dmB .8s cubic-bezier(.18,1.35,.4,1) .12s both; }
+.cel.on.end .dm.l { animation: dmL .8s cubic-bezier(.18,1.35,.4,1) .24s both; }
+.cel.on.end .dm.r { animation: dmR .8s cubic-bezier(.18,1.35,.4,1) .36s both; }
+.cel.on.end .dm span { animation: shake .32s linear .9s infinite; }
+.cel.on.end .dm.b span { animation-delay: 1.02s; } .cel.on.end .dm.l span { animation-delay: 1.14s; } .cel.on.end .dm.r span { animation-delay: 1.26s; }
+@keyframes dmT { from { transform: translate(-50%, -130vh); } to { transform: translate(-50%, 0); } }
+@keyframes dmB { from { transform: translate(-50%, 130vh); } to { transform: translate(-50%, 0); } }
+@keyframes dmL { from { transform: translate(-130vw, -50%) rotate(180deg); } to { transform: translate(0, -50%) rotate(180deg); } }
+@keyframes dmR { from { transform: translate(130vw, -50%); } to { transform: translate(0, -50%); } }
 </style>
 </head>
 <body>
@@ -235,6 +254,7 @@ button { font: inherit; color: inherit; }
 <button class="trash" id="trash" type="button" aria-label="Hapus semua riwayat">🗑</button>
 <div class="cel" id="cel" hidden role="dialog" aria-label="Pemenang">
   <canvas id="cf"></canvas>
+  <div class="dm t"><span>DAMN!!!!</span></div><div class="dm b"><span>DAMN!!!!</span></div><div class="dm l"><span>DAMN!!!!</span></div><div class="dm r"><span>DAMN!!!!</span></div>
   <div class="crow">
     <div class="kw l">KEPROK</div>
     <div class="cc"><div class="rays"></div><div class="trophy">🏆</div><div class="lab" id="cLab">PEMENANG</div><div class="wn" id="cName"></div></div>
@@ -274,7 +294,7 @@ button { font: inherit; color: inherit; }
   function load() {
     try {
       var d = JSON.parse(localStorage.getItem(KEY) || 'null'); if (!d) return;
-      if (d.n >= 2 && d.n <= 4) S.n = d.n;
+      if (d.n === 2) S.n = 2; else if (d.n === 3 || d.n === 4) S.n = 4;
       if (Array.isArray(d.ps)) d.ps.slice(0, 4).forEach(function (p, i) {
         if (p && typeof p.name === 'string') S.ps[i].name = p.name.slice(0, 14);
         if (p && /^#[0-9a-f]{6}$/i.test(p.color)) S.ps[i].color = p.color;
@@ -505,7 +525,7 @@ button { font: inherit; color: inherit; }
         if (tot > 4) h += '<div class="acts" style="justify-content:center"><button class="btn sm" data-a="more">' + (archOpen ? 'Ringkas (4 terbaru)' : 'Lihat semua (' + tot + ')') + '</button></div>';
       }
     } else {
-      h += '<h3>Jumlah pemain</h3><div class="seg">' + [2, 3, 4].map(function (n) { return '<button class="btn" data-n="' + n + '" aria-pressed="' + (S.n === n) + '">' + n + ' pemain</button>'; }).join('') + '</div>' +
+      h += '<h3>Jenis Game</h3><div class="seg">' + [[2, 'Partner (2)'], [4, 'Berdikari (4)']].map(function (m) { return '<button class="btn" data-n="' + m[0] + '" aria-pressed="' + (S.n === m[0]) + '">' + m[1] + '</button>'; }).join('') + '</div>' +
         '<p class="hint">Sebaiknya diganti setelah Akhiri sesi.</p><h3>Nama &amp; warna</h3>';
       for (var j = 0; j < S.n; j++) {
         h += '<div class="fld"><input type="text" maxlength="14" data-name="' + j + '" value="' + esc(S.ps[j].name) + '" placeholder="Pemain ' + (j + 1) + '" aria-label="Nama pemain ' + (j + 1) + '"><div class="sw">' +
@@ -710,12 +730,59 @@ button { font: inherit; color: inherit; }
       pc(0, cH * .92, rnd(5, 14), -rnd(11, 21)); pc(cW, cH * .92, -rnd(5, 14), -rnd(11, 21));
     }
   }
+  /* tebaran domino dari 4 sisi (hanya Akhiri sesi) */
+  var dSpr = [], dts = [], dAcc = 0, dSide = 0;
+  var DPIP = [[], [4], [0, 8], [0, 4, 8], [0, 2, 6, 8], [0, 2, 4, 6, 8], [0, 2, 3, 5, 6, 8]];
+  function rr(c, x, y, w, h, r) {
+    c.beginPath(); c.moveTo(x + r, y); c.arcTo(x + w, y, x + w, y + h, r); c.arcTo(x + w, y + h, x, y + h, r);
+    c.arcTo(x, y + h, x, y, r); c.arcTo(x, y, x + w, y, r); c.closePath();
+  }
+  function domSprite() {
+    var k = Math.max(.8, Math.min(1.5, Math.min(cW, cH) / 400)), w = Math.round(40 * k), h = w * 2, i, h2, n, sp = w * .28, cy;
+    var s = document.createElement('canvas'); s.width = Math.round(w * cDpr); s.height = Math.round(h * cDpr);
+    var c = s.getContext('2d'); c.scale(cDpr, cDpr);
+    c.shadowColor = 'rgba(0,0,0,.4)'; c.shadowBlur = 6; c.shadowOffsetY = 2;
+    rr(c, 3, 3, w - 6, h - 6, 6 * k); c.fillStyle = '#f7f2e6'; c.fill();
+    c.shadowColor = 'transparent'; c.lineWidth = 1.2; c.strokeStyle = 'rgba(0,0,0,.35)'; c.stroke();
+    c.fillStyle = '#1a1a22'; c.fillRect(w * .16, h / 2 - 1.2 * k, w * .68, 2.4 * k);
+    for (h2 = 0; h2 < 2; h2++) {
+      n = (Math.random() * 7) | 0; cy = h * (h2 ? .75 : .25);
+      DPIP[n].forEach(function (g) {
+        c.beginPath(); c.arc(w / 2 + ((g % 3) - 1) * sp, cy + (((g / 3) | 0) - 1) * sp, 3.6 * k, 0, 6.2832); c.fillStyle = '#1a1a22'; c.fill();
+      });
+    }
+    return { cv: s, w: w, h: h };
+  }
+  function spawnDom(now) {
+    var sp = dSpr[(Math.random() * dSpr.length) | 0], side = dSide++ % 4, s;
+    if (side === 0) s = { x: rnd(.05, .95) * cW, y: -sp.h };
+    else if (side === 1) s = { x: cW + sp.h, y: rnd(.05, .95) * cH };
+    else if (side === 2) s = { x: rnd(.05, .95) * cW, y: cH + sp.h };
+    else s = { x: -sp.h, y: rnd(.05, .95) * cH };
+    dts.push({ sp: sp, t0: now, sx: s.x, sy: s.y, ex: rnd(.06, .94) * cW, ey: rnd(.06, .94) * cH, fly: rnd(700, 1000), stay: rnd(1800, 2600),
+      r0: rnd(-3.14, 3.14), spin: rnd(2, 4.5) * (Math.random() < .5 ? -1 : 1), r1: rnd(-3.14, 3.14) });
+  }
+  function drawDom(now, el, dt) {
+    var i, d, age, k, e, a, x, y;
+    if (el < 10000) { dAcc += .14 * dt; while (dAcc >= 1) { dAcc--; spawnDom(now); } }
+    for (i = dts.length - 1; i >= 0; i--) {
+      d = dts[i]; age = now - d.t0;
+      if (age > d.fly + d.stay + 500) { dts.splice(i, 1); continue; }
+      k = Math.min(age / d.fly, 1); e = 1 - Math.pow(1 - k, 3);
+      x = d.sx + (d.ex - d.sx) * e; y = d.sy + (d.ey - d.sy) * e;
+      a = age > d.fly + d.stay ? 1 - (age - d.fly - d.stay) / 500 : 1;
+      cx.globalAlpha = a; cx.save(); cx.translate(x, y); cx.rotate(d.r0 + d.spin * (1 - e) * 3.1416 + (d.r1 - d.r0) * e * .15);
+      cx.drawImage(d.sp.cv, -d.sp.w / 2, -d.sp.h / 2, d.sp.w, d.sp.h); cx.restore();
+    }
+    cx.globalAlpha = 1;
+  }
   function cfFrame(now) {
     var dt = Math.min(50, now - cLast) / 16.67, el = now - cst, lim = cMode === 'end' ? 10000 : 7000, rate = el < lim ? (cMode === 'end' ? 4 : 3) : .5, i, p;
     cLast = now;
     cAcc += rate * dt; while (cAcc >= 1) { cAcc--; rain(1); }
     if (el < lim && now >= cNext) { cNext = now + 1200; cannon(); }
     cx.clearRect(0, 0, cW, cH);
+    if (cMode === 'end') drawDom(now, el, dt);
     for (i = cparts.length - 1; i >= 0; i--) {
       p = cparts[i];
       p.vy += .22 * dt; p.vx *= Math.pow(.992, dt); if (p.vy > 6) p.vy *= Math.pow(.96, dt);
@@ -733,13 +800,15 @@ button { font: inherit; color: inherit; }
     cel.style.setProperty('--bg', o.color); cel.style.setProperty('--fg', fgOf(o.color));
     cel.classList.toggle('end', o.mode === 'end');
     cel.hidden = false; void cel.offsetWidth; cel.classList.add('on');
-    cShown = Date.now(); cfSize(); cparts = []; cAcc = 0; cst = performance.now(); cLast = cst; cNext = cst;
+    cShown = Date.now(); cfSize(); cparts = []; dts = []; dAcc = 0; dSide = 0; dSpr = [];
+    if (o.mode === 'end') for (var q = 0; q < 14; q++) dSpr.push(domSprite());
+    cAcc = 0; cst = performance.now(); cLast = cst; cNext = cst;
     craf = requestAnimationFrame(cfFrame);
     if (o.mode === 'end') sfxEnd(); else sfxWin();
   }
   function celStop() {
     if (craf) cancelAnimationFrame(craf);
-    craf = 0; cparts = [];
+    craf = 0; cparts = []; dts = [];
     cel.classList.remove('on'); cel.hidden = true;
     sfxStop();
   }
